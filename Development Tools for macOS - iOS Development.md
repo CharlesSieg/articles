@@ -4,11 +4,15 @@ I’ve delivered over 300 applications to the iOS App Store since 2008. I’ve w
 
 ## [Xcode](https://developer.apple.com/xcode/)
 
+![Xcode](https://cdn-images-1.medium.com/max/2000/1*IB1X5zefFwKfbGdbgadNLw.png)
+
 I suspect pretty much everyone who does any Mac or iOS development has installed and regularly updates Xcode. It’s Apple’s official IDE for building Mac and iOS applications. It’s overall quality and stability rises and falls with each new release - Xcode 9 is in the waning phase - but it gets the job done. I use it to write application code and unit and integration tests. I [avoid using Interface Builder](https://medium.com/@charlessieg/avoid-storyboards-and-interface-builder-cc3363de4782) as much as possible.
 
 Xcode is available in the Mac App Store and is free.
 
 ## [AppCode](https://www.jetbrains.com/objc)
+
+![AppCode](https://www.jetbrains.com/objc/img/screenshots/development-environment.png)
 
 AppCode is an excellent IDE made by JetBrains, a company which makes IDEs for many languages. I use a number of their products and have been a big fan going all the way back to their C# [Resharper](https://www.jetbrains.com/resharper) product which first came out over a decade ago.
 
@@ -19,6 +23,8 @@ AppCode is available on a subscription basis for $199 per year or $19.90 per mon
 AppCode’s 30-day free trial can be [downloaded from the JetBrains website](https://www.jetbrains.com/objc/download/download-thanks.html?platform=mac).
 
 ## [SwiftLint](https://github.com/realm/SwiftLint)
+![SwiftLint in Xcode](https://github.com/realm/SwiftLint/raw/master/assets/screenshot.png)
+
 SwiftLint is a tool created and maintained by [Realm](https://realm.io) (makers of the excellent [Realm database](https://realm.io/products/realm-database)) for enforcing Swift style and conventions. It can be easily added to AppCode, Xcode, or even [Atom](https://atom.io) if you use that for development. Approximately 75 rules are included but any of them can be enabled or disabled by modifying a configuration file. You can also create your own rules using a Regex-based syntax.
 
 I use SwiftLint to make sure all of my code looks the same. SwiftLint does also have the ability to automatically correct certain violations.
@@ -26,6 +32,9 @@ I use SwiftLint to make sure all of my code looks the same. SwiftLint does also 
 SwiftLint is free to use and is available by simply cloning [the GitHub repo](https://github.com/realm/SwiftLint).  
 
 ## [DB Browser for SQLite](http://sqlitebrowser.org)
+
+![DB Browser for SQLite](https://github.com/sqlitebrowser/sqlitebrowser/raw/master/images/sqlitebrowser.png)
+
 DB Browser for SQLite is basically a visual tool to explore SQLite databases. You can create, design, and edit SQLite databases and associated tables and indexes. You can perform queries, browse, add, edit, or delete records, or import and export data. If you are writing iOS applications which store data in SQLite databases, this tool is invaluable.
 
 I do recommend using SQLite directly for data access as opposed to using Core Data. Another good alternative is to use Realm. A list of frameworks, libraries, and packages for iOS development will be provided in a future article.
@@ -35,7 +44,9 @@ DB Browser for SQLite is a free download at [http://sqlitebrowser.org](http://sq
 
 ## [Xamarin](https://www.xamarin.com/platform)
 
-Xamarin is a cross-platform solution for creating applications on iOS, Android, and Windows with more-or-less the same code base. Xamarin programs are written in C#. I once worked on the “world’s largest Xamarin implementation” (at the time) and it proved to be a pretty capable tool. There are loads of challenges in sharing code across all of those platforms but its use did allow for a significant amount of code reuse.
+![Xamarin](https://www.xamstatic.com/dist/images/pages/platform/visual-studio-2017-Pd51vjk6.png)
+
+Xamarin is a cross-platform solution for creating applications on iOS, Android, and Windows with more-or-less the same code base. Xamarin programs are written in [C#](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/). I once worked on the “world’s largest Xamarin implementation” (at the time) and it proved to be a pretty capable tool. There are loads of challenges in sharing code across all of those platforms but its use did allow for a significant amount of code reuse.
 
 The Xamarin product used to be owned and maintained by the Xamarin company until Microsoft bought Xamarin a few years ago. When Microsoft took over, Xamarin officially became part of Visual Studio which means that developers build Xamarin apps within the best-in-class Visual Studio IDE. Using VS means you can also use JetBrains’ [Resharper](https://www.jetbrains.com/resharper/) tool, which is like SwiftLint for C# on steroids. Alas, if you are using Xamarin on Mac, that limits you to Visual Studio for Mac or running Visual Studio on Windows 10 within a virtual machine via [VMware Fusion](https://www.vmware.com/products/fusion.html) or [Parallels](https://www.parallels.com/products/desktop/).
 
