@@ -18,9 +18,9 @@ This scenario presents a number of challenges:
 
 2. Since two versions of Node.js are now needed, [nvm](https://github.com/creationix/nvm) must be used to switch between Node.js versions.
 
-3. ...
+3. Two Redis caches are now needed, one for the old client project and one for the new web service, using either separate host IPs or separate ports.
 
-Containerization with Docker solves all of these issues.
+Containerization with Docker solves all of these issues. In the simplest configuration, a Docker container can be created which hosts all of these services: Node.js, Redis, RabbitMQ, and MySQL. An example of this can be found in my Samples repo.
 
 ## Portability
 
