@@ -53,3 +53,4 @@ The Xamarin product used to be owned and maintained by the Xamarin company until
 That said, if your target devices are phones, I now prefer React Native for cross-platform development. React Native officially supports only iOS and Android but there is recent support for the Windows 10 SDK.
 
 Xamarin was fairly expensive but since Microsoft purchased Xamarin, the product is now free. Visual Studio for Mac (which includes Xamarin) can be downloaded at [https://www.xamarin.com/download](https://www.xamarin.com/download).
+
