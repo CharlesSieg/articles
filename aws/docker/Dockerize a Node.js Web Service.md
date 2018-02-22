@@ -52,7 +52,7 @@ console.log(`Running on http://${HOST}:${PORT}`);
 
 This JavaScript code basically uses *Express* to create a web service that will listen on port 8080 and respond to any incoming *GET* request with the text "Hello World!"
 
-Start the Node.js web service:
+Now, start the Node.js web service:
 
 ```
 npm start
@@ -72,7 +72,7 @@ Congratulations, you now have a working Node.js web service! Go ahead and hit *C
 
 ## Step 2. Create the Dockerfile.
 
-The Dockerfile is a text file which contains all of the commands, in order, to build a given Docker image. It's basically a script: Docker executes the commands in the script and the end result is a new Docker image.
+The Dockerfile is a text file which contains all of the instructions, in order, to build a given Docker image. It's basically a script: Docker executes the instructions in the script and the end result is a new Docker image.
 
 In the same folder as the rest of the web service code, create a new file called **Dockerfile**. Copy the following text into your **Dockerfile** and save it:
 
@@ -88,7 +88,8 @@ RUN npm install
 COPY . .
 
 EXPOSE 8080
-CMD [ "npm", "start" ]
+
+CMD ["npm", "start"]
 ```
 
 Now, let's examine this Dockerfile, line by line:
@@ -109,7 +110,7 @@ This **COPY** instruction copies the package.json (and package_lock.json if pres
 
 `RUN npm install`
 
-Without going into too much detail, this **RUN** instruction actually executes *npm install* and causes all of the web service's dependencies to be installed. This basically creates the **node_modules** folder which contains our *Express* package.
+Without going into too much detail, this **RUN** instruction actually executes *npm install* and causes all of the web service's dependencies to be installed. This basically creates the **node_modules** folder which contains the *Express* package.
 
 `COPY . .`
 
@@ -117,9 +118,9 @@ This instruction copies all of the files in the current folder - the **server.js
 
 `EXPOSE 8080`
 
-The **EXPOSE** instruction lets Docker know that the container listens on the specified network ports at runtime.
+The **EXPOSE** instruction lets Docker know that the container listens on the network port 8080 at runtime.
 
-`CMD [ "npm", "start" ]`
+`CMD ["npm", "start"]`
 
 The **CMD** instruction takes the form of `["executable", "param1", "param2"]` and is intended to provide defaults for an executing container based off of this image. The Dockerfile can only contain one **CMD** instruction.
 
@@ -127,7 +128,7 @@ That's it for the Dockerfile. We're ready to use the Dockerfile to build an actu
 
 ## Step 3. Build the Docker image.
 
-To build the Docker image:
+To build the Docker image (don't miss the period at the end of the statement):
 
 ```
 docker build -t basic-dockerize .
@@ -172,7 +173,7 @@ Successfully built 43ea15c8a66f
 Successfully tagged basic-dockerize:latest
 ```
 
-Don't miss the period at the end of that statement. Docker will chug for awhile as it downloads the various layers it needs for the image.
+Docker will chug along for awhile as it executes all of the instructions in the Dockerfile. The longest instruction is the initial **FROM** which causes the `node:carbon` base image to be downloaded. The resulting image is tagged *latest*.
 
 Once the image has been created, its existence can be verified in the local repository:
 
@@ -203,6 +204,8 @@ curl http://127.0.0.1:8181
 
 Hello World!
 ```
+
+Notice that the web service is running on port 8080 within the container and that requests on host port 8181 are being successfully routed to 8080.
 
 Congratulations! That's all there is to getting a Node.js web service up and running inside of a Docker container.
 
