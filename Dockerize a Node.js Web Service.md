@@ -1,6 +1,129 @@
 # Dockerize a Node.js Web Service
 
-The code used in this example and the article itself is also available in my [Samples Git repo](https://github.com/CharlesSieg/samples/tree/master/basic-dockerize).
+There are lots of reasons for wanting to run applications in containers and I've covered some of these in another article. This article is about actually getting into some code and dockerizing a simple Node.js web service.
+
+The code used in this example is available in my [Samples Git repo](https://github.com/CharlesSieg/samples/tree/master/basic-dockerize). This walkthrough assumes you already have installed Node.js. If not, follow the instructions on the [Node.js website](https://nodejs.org/en/). This walkthrough was tested on macOS but the same steps should work, more or less, in any OS.
+
+## Step 1. Create the web service.
+
+First, let's create a very simple "Hello World!" web service using Node.js. You can either clone my [Samples repo](https://github.com/CharlesSieg/samples) and skip down to step 2 or follow these steps to quickly create a new Node.js web service.
+
+```
+mkdir dockerize
+cd dockerize
+npm init -f
+```
+
+This creates a folder called **dockerize** and uses *npm* to install a default instance of **package.json**.
+
+Open up the **package.json** file and change
+
+`"main": "index.js"`
+
+to
+
+`"main": "server.js"`
+
+You don't *have* to do this but the example code uses a JavaScript file named **server.js**.
+
+Install the *Express* framework:
+
+`npm install express -save`
+
+Now create an empty file called **server.js** and add the following:
+
+```javascript
+'use strict';
+
+const express = require('express');
+const PORT = 8080;
+const HOST = '0.0.0.0';
+const app = express();
+
+app.get('/', (req, res) => {
+    res.send('Hello World!\n');
+});
+
+app.listen(PORT, HOST);
+console.log(`Running on http://${HOST}:${PORT}`);
+```
+
+This JavaScript code basically uses *Express* to create a web service that will listen on port 8080 and respond to any incoming request with the text "Hello World!"
+
+Confirm that the Node.js web service works:
+
+```
+npm start
+
+Running on http://0.0.0.0:8080
+```
+
+Open a new terminal window and type:
+
+`curl http://127.0.0.1:8080`
+
+and you should see
+
+`Hello World!`
+
+Congratulations, you now have a working Node.js web service! Go ahead and hit *Control+C* in the terminal window where the web service is running to terminate the web service.
+
+## Step 2. Create the Dockerfile.
+
+The Dockerfile is a text file which contains all of the commands, in order, to build a given Docker image. It's basically a script: Docker executes the commands in the script and the end result is a new Docker image.
+
+In the same folder as the rest of the web service code, create a new file called **Dockerfile**. Copy the following text into your **Dockerfile** and save it:
+
+```
+FROM node:carbon
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 8080
+CMD [ "npm", "start" ]
+```
+
+Now, let's examine this Dockerfile, line by line:
+
+`FROM node:carbon`
+
+The **FROM** instruction tells Docker to initialize a new build stage and set the [Base Image](https://docs.docker.com/engine/reference/glossary/#base-image) to an initial image. This instruction must be the first instruction in any Dockerfile.
+
+The image here is provided by the Node.js Docker Team and contains the Carbon release of Node.js which is, essentially, [Node v8.9.0](https://nodejs.org/en/blog/release/v8.9.0/) and is in Long Term Support (LTS) until April 2019. This is a solid image to start off with but `node:alpine` is also very good (and optimized for containers). We'll use `node:carbon` for this exercise.
+
+`WORKDIR /usr/src/app`
+
+The **WORKDIR** instruction sets the default working directory for running binaries within the container. Without this instruction, the default is the root directory.
+
+`COPY package*.json ./`
+
+This **COPY** instruction copies the package.json (and package_lock.json if present) into the root directory of the container's file system. This is to prepare for the next line:
+
+`RUN npm install`
+
+Without going into too much detail, this **RUN** instruction actually executes *npm install* and causes all of the web service's dependencies to be installed. This basically creates the **node_modules** folder which contains our *Express* package.
+
+`COPY . .`
+
+This instruction copies all of the files in the current folder - the **server.js** file mainly - into the current folder in the image. After this instruction is finished, the source code for the web service has been completely installed in the Docker image.
+
+`EXPOSE 8080`
+
+The **EXPOSE** instruction lets Docker know that the container listens on the specified network ports at runtime.
+
+`CMD [ "npm", "start" ]`
+
+The **CMD** instruction takes the form of `["executable", "param1", "param2"]` and is intended to provide defaults for an executing container based off of this image. The Dockerfile can only contain one **CMD** instruction.
+
+That's it for the Dockerfile. We're ready to use the Dockerfile to build an actual image.
+
+## Step 3. Build the Docker image.
 
 To build the Docker image:
 
@@ -59,6 +182,8 @@ basic-dockerize     latest              43ea15c8a66f        About a minute ago  
 node                carbon              292a11903b0d        4 days ago           676MB
 ```
 
+## Step 4. Run the container.
+
 To run a new container using the image:
 
 ```
@@ -77,7 +202,13 @@ curl http://127.0.0.1:8181
 Hello World!
 ```
 
-To obtain a list of containers:
+Congratulations! That's all there is to getting a Node.js web service up and running inside of a Docker container.
+
+## Step 5. Stop and remove the container and image.
+
+It's always good to know a bit about cleaning up. Containers can be stopped and deleted. Images can be deleted if there are no containers left which are built from the image.
+
+A container can be stopped if you know its container ID. This is easily obtained by listing the containers:
 
 ```
 docker ps
@@ -97,7 +228,7 @@ e2299030ac2a
 
 Confirm that the container has stopped by running `docker ps` again and verifying the absence of the container's process in the list.
 
-To remove the container:
+Now that there are no more running instances of the container, it can be removed:
 
 ```
 docker container rm e2299030ac2a
@@ -105,7 +236,7 @@ docker container rm e2299030ac2a
 e2299030ac2a
 ```
 
-To remove the image:
+Finally, now that there are no more containers referencing the image, the image itself can be removed:
 
 ```
 docker rmi basic-dockerize
