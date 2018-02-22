@@ -9,9 +9,9 @@ The code used in this example is available in my [Samples Git repo](https://gith
 First, let's create a very simple "Hello World!" web service using Node.js. You can either clone my [Samples repo](https://github.com/CharlesSieg/samples) and skip down to step 2 or follow these steps to quickly create a new Node.js web service.
 
 ```
-mkdir dockerize
-cd dockerize
-npm init -f
+$ mkdir dockerize
+$ cd dockerize
+$ npm init -f
 ```
 
 This creates a folder called **dockerize** and uses *npm* to install a default instance of **package.json**.
@@ -28,7 +28,7 @@ You don't *have* to do this but the example code uses a JavaScript file named **
 
 Next, install the *Express* framework:
 
-`npm install express -save`
+` $ npm install express -save`
 
 This will download the *Express* package from *npm* and install it in the **node_modules** folder. It will also update the **package.json** file to reflect that *Express* is now a dependency.
 
@@ -55,14 +55,14 @@ This JavaScript code basically uses *Express* to create a web service that will 
 Now, start the Node.js web service:
 
 ```
-npm start
+$ npm start
 
 Running on http://0.0.0.0:8080
 ```
 
 and confirm that it is running correctly by opening a new terminal window and typing:
 
-`curl http://127.0.0.1:8080`
+`$ curl http://127.0.0.1:8080`
 
 You should see
 
@@ -131,7 +131,7 @@ That's it for the Dockerfile. We're ready to use the Dockerfile to build an actu
 To build the Docker image (don't miss the period at the end of the statement):
 
 ```
-docker build -t basic-dockerize .
+$ docker build -t basic-dockerize .
 
 Sending build context to Docker daemon  1.943MB
 Step 1/7 : FROM node:carbon
@@ -178,7 +178,7 @@ Docker will chug along for awhile as it executes all of the instructions in the 
 Once the image has been created, its existence can be verified in the local repository:
 
 ```
-docker images
+$ docker images
 
 REPOSITORY          TAG                 IMAGE ID            CREATED              SIZE
 basic-dockerize     latest              43ea15c8a66f        About a minute ago   680MB
@@ -190,7 +190,7 @@ node                carbon              292a11903b0d        4 days ago          
 To run a new container using the image:
 
 ```
-docker run -p 8181:8080 -d basic-dockerize
+$ docker run -p 8181:8080 -d basic-dockerize
 
 e2299030ac2ab0e9fc976dc774870e3668e2bf4b86cbef4ca560ac85d965b298
 ```
@@ -200,7 +200,7 @@ The *-p* option maps port 8181 of the host to port 8080 of the container. The *-
 Verify that the web service running in the container is responding by using *curl*:
 
 ```
-curl http://127.0.0.1:8181
+$ curl http://127.0.0.1:8181
 
 Hello World!
 ```
@@ -216,7 +216,7 @@ It's always good to know a bit about cleaning up. Containers can be stopped and 
 A container can be stopped if you know its container ID. This is easily obtained by listing the containers:
 
 ```
-docker ps
+$ docker ps
 
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                    NAMES
 
@@ -226,7 +226,7 @@ e2299030ac2a        basic-dockerize     "npm start"         12 minutes ago      
 Stop the container with:
 
 ```
-docker stop e2299030ac2a
+$ docker stop e2299030ac2a
 
 e2299030ac2a
 ```
@@ -236,7 +236,7 @@ Confirm that the container has stopped by running `docker ps` again and verifyin
 Now that there are no more running instances of the container, it can be removed:
 
 ```
-docker container rm e2299030ac2a
+$ docker container rm e2299030ac2a
 
 e2299030ac2a
 ```
@@ -244,7 +244,7 @@ e2299030ac2a
 Finally, now that there are no more containers referencing the image, the image itself can be removed:
 
 ```
-docker rmi basic-dockerize
+$ docker rmi basic-dockerize
 
 Untagged: basic-dockerize:latest
 Deleted: sha256:43ea15c8a66fd40fa394a201a18e1debd1e488058d8545dac98316b3044bf7d7
