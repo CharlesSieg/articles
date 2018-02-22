@@ -2,7 +2,7 @@
 
 There are lots of reasons for wanting to run applications in containers and I've covered some of these in another article. This article is about actually getting into some code and dockerizing a simple Node.js web service.
 
-The code used in this example is available in my [Samples Git repo](https://github.com/CharlesSieg/samples/tree/master/basic-dockerize). This walkthrough assumes you already have installed Node.js. If not, follow the instructions on the [Node.js website](https://nodejs.org/en/). This walkthrough was tested on macOS but the same steps should work, more or less, in any OS.
+The code used in this example is available in my [Samples Git repo](https://github.com/CharlesSieg/samples/tree/master/basic-dockerize). This walkthrough assumes you have already installed Node.js. If not, follow the instructions on the [Node.js website](https://nodejs.org/en/). This walkthrough was tested on macOS but the same steps should work, more or less, in any OS.
 
 ## Step 1. Create the web service.
 
@@ -26,11 +26,13 @@ to
 
 You don't *have* to do this but the example code uses a JavaScript file named **server.js**.
 
-Install the *Express* framework:
+Next, install the *Express* framework:
 
 `npm install express -save`
 
-Now create an empty file called **server.js** and add the following:
+This will download the *Express* package from *npm* and install it in the **node_modules** folder. It will also update the **package.json** file to reflect that *Express* is now a dependency.
+
+Next, create an empty file called **server.js** and add the following:
 
 ```javascript
 'use strict';
@@ -48,9 +50,9 @@ app.listen(PORT, HOST);
 console.log(`Running on http://${HOST}:${PORT}`);
 ```
 
-This JavaScript code basically uses *Express* to create a web service that will listen on port 8080 and respond to any incoming request with the text "Hello World!"
+This JavaScript code basically uses *Express* to create a web service that will listen on port 8080 and respond to any incoming *GET* request with the text "Hello World!"
 
-Confirm that the Node.js web service works:
+Start the Node.js web service:
 
 ```
 npm start
@@ -58,11 +60,11 @@ npm start
 Running on http://0.0.0.0:8080
 ```
 
-Open a new terminal window and type:
+and confirm that it is running correctly by opening a new terminal window and typing:
 
 `curl http://127.0.0.1:8080`
 
-and you should see
+You should see
 
 `Hello World!`
 
