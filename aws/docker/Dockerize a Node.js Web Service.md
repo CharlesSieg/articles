@@ -2,7 +2,16 @@
 
 There are lots of reasons for wanting to run applications in containers and I've covered some of these in another article. This article is about actually getting into some code and dockerizing a simple Node.js web service.
 
-The code used in this example is available in my [Samples Git repo](https://github.com/CharlesSieg/samples/tree/master/basic-dockerize). This walkthrough assumes you have already installed Node.js. If not, follow the instructions on the [Node.js website](https://nodejs.org/en/). This walkthrough was tested on macOS but the same steps should work, more or less, in any OS.
+## Requirements Before Starting
+
+This tutorial assumes you have already installed two items:
+
+* **Node.js.** To install, follow the instructions on the [Node.js website](https://nodejs.org/en/).
+* **Docker.** If not installed, install [Docker Community Edition](https://store.docker.com/search?type=edition&offering=community).
+
+This tutorial was tested on macOS but the same steps should work, more or less, in any OS.
+
+All of the code used in this tutorial is available in my [Samples Git repo](https://github.com/CharlesSieg/samples/tree/master/basic-dockerize). 
 
 ## Step 1. Create the web service.
 
